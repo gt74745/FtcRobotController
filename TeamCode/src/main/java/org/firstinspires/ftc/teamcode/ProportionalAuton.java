@@ -48,8 +48,7 @@ public class ProportionalAuton extends LinearOpMode
             telemetry.addData("4 rightFrontPower", rightFrontPower);
             telemetry.update();
 
-            // Move functions
-            move(220/Math.sqrt(2), 220/Math.sqrt(2));
+            move(220, 220);
         }
     }
 
@@ -115,8 +114,8 @@ public class ProportionalAuton extends LinearOpMode
         positiveDistanceTraveled = (leftFrontDistanceTraveled + rightBackDistanceTraveled) / 2;
         negativeDistanceTraveled = (leftBackDistanceTraveled + rightFrontDistanceTraveled) / 2;
 
-        double positiveError = posTarget - positiveDistanceTraveled;
-        double negativeError = negTarget - negativeDistanceTraveled;
+        double positiveError = (posTarget / Math.sqrt(2)) - positiveDistanceTraveled;
+        double negativeError = (negTarget / Math.sqrt(2)) - negativeDistanceTraveled;
 
         // Calculate the motor powers
         if (runtime.milliseconds() < 1000)
