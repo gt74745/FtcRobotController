@@ -1,0 +1,456 @@
+
+> Task :tasks
+
+------------------------------------------------------------
+Tasks runnable from root project
+------------------------------------------------------------
+
+Android tasks
+-------------
+FtcRobotController:androidDependencies - Displays the Android dependencies of the project.
+TeamCode:androidDependencies - Displays the Android dependencies of the project.
+FtcRobotController:signingReport - Displays the signing info for the base and test modules
+TeamCode:signingReport - Displays the signing info for the base and test modules
+FtcRobotController:sourceSets - Prints out all the source sets defined in this project.
+TeamCode:sourceSets - Prints out all the source sets defined in this project.
+
+Build tasks
+-----------
+FtcRobotController:assemble - Assemble main outputs for all the variants.
+TeamCode:assemble - Assemble main outputs for all the variants.
+FtcRobotController:assembleAndroidTest - Assembles all the Test applications.
+TeamCode:assembleAndroidTest - Assembles all the Test applications.
+FtcRobotController:build - Assembles and tests this project.
+TeamCode:build - Assembles and tests this project.
+FtcRobotController:buildDependents - Assembles and tests this project and all projects that depend on it.
+TeamCode:buildDependents - Assembles and tests this project and all projects that depend on it.
+FtcRobotController:buildNeeded - Assembles and tests this project and all projects it depends on.
+TeamCode:buildNeeded - Assembles and tests this project and all projects it depends on.
+TeamCode:bundle - Assemble bundles for all the variants.
+FtcRobotController:clean - Deletes the build directory.
+TeamCode:clean - Deletes the build directory.
+FtcRobotController:cleanBuildCache - Deletes the build cache directory.
+TeamCode:cleanBuildCache - Deletes the build cache directory.
+FtcRobotController:compileDebugAndroidTestSources
+TeamCode:compileDebugAndroidTestSources
+FtcRobotController:compileDebugSources
+TeamCode:compileDebugSources
+FtcRobotController:compileDebugUnitTestSources
+TeamCode:compileDebugUnitTestSources
+FtcRobotController:compileReleaseSources
+TeamCode:compileReleaseSources
+FtcRobotController:compileReleaseUnitTestSources
+TeamCode:compileReleaseUnitTestSources
+FtcRobotController:extractDebugAnnotations - Extracts Android annotations for the debug variant into the archive file
+FtcRobotController:extractReleaseAnnotations - Extracts Android annotations for the release variant into the archive file
+
+Build Setup tasks
+-----------------
+init - Initializes a new Gradle build.
+wrapper - Generates Gradle wrapper files.
+
+Cleanup tasks
+-------------
+FtcRobotController:lintFix - Runs lint on all variants and applies any safe suggestions to the source code.
+TeamCode:lintFix - Runs lint on all variants and applies any safe suggestions to the source code.
+
+Help tasks
+----------
+buildEnvironment - Displays all buildscript dependencies declared in root project 'FtcRobotController'.
+FtcRobotController:buildEnvironment - Displays all buildscript dependencies declared in project ':FtcRobotController'.
+TeamCode:buildEnvironment - Displays all buildscript dependencies declared in project ':TeamCode'.
+components - Displays the components produced by root project 'FtcRobotController'. [incubating]
+FtcRobotController:components - Displays the components produced by project ':FtcRobotController'. [incubating]
+TeamCode:components - Displays the components produced by project ':TeamCode'. [incubating]
+dependencies - Displays all dependencies declared in root project 'FtcRobotController'.
+FtcRobotController:dependencies - Displays all dependencies declared in project ':FtcRobotController'.
+TeamCode:dependencies - Displays all dependencies declared in project ':TeamCode'.
+dependencyInsight - Displays the insight into a specific dependency in root project 'FtcRobotController'.
+FtcRobotController:dependencyInsight - Displays the insight into a specific dependency in project ':FtcRobotController'.
+TeamCode:dependencyInsight - Displays the insight into a specific dependency in project ':TeamCode'.
+dependentComponents - Displays the dependent components of components in root project 'FtcRobotController'. [incubating]
+FtcRobotController:dependentComponents - Displays the dependent components of components in project ':FtcRobotController'. [incubating]
+TeamCode:dependentComponents - Displays the dependent components of components in project ':TeamCode'. [incubating]
+help - Displays a help message.
+FtcRobotController:help - Displays a help message.
+TeamCode:help - Displays a help message.
+model - Displays the configuration model of root project 'FtcRobotController'. [incubating]
+FtcRobotController:model - Displays the configuration model of project ':FtcRobotController'. [incubating]
+TeamCode:model - Displays the configuration model of project ':TeamCode'. [incubating]
+outgoingVariants - Displays the outgoing variants of root project 'FtcRobotController'.
+FtcRobotController:outgoingVariants - Displays the outgoing variants of project ':FtcRobotController'.
+TeamCode:outgoingVariants - Displays the outgoing variants of project ':TeamCode'.
+projects - Displays the sub-projects of root project 'FtcRobotController'.
+FtcRobotController:projects - Displays the sub-projects of project ':FtcRobotController'.
+TeamCode:projects - Displays the sub-projects of project ':TeamCode'.
+properties - Displays the properties of root project 'FtcRobotController'.
+FtcRobotController:properties - Displays the properties of project ':FtcRobotController'.
+TeamCode:properties - Displays the properties of project ':TeamCode'.
+tasks - Displays the tasks runnable from root project 'FtcRobotController' (some of the displayed tasks may belong to subprojects).
+FtcRobotController:tasks - Displays the tasks runnable from project ':FtcRobotController'.
+TeamCode:tasks - Displays the tasks runnable from project ':TeamCode'.
+
+Install tasks
+-------------
+TeamCode:installDebug - Installs the Debug build.
+FtcRobotController:installDebugAndroidTest - Installs the android (on device) tests for the Debug build.
+TeamCode:installDebugAndroidTest - Installs the android (on device) tests for the Debug build.
+TeamCode:installRelease - Installs the Release build.
+FtcRobotController:uninstallAll - Uninstall all applications.
+TeamCode:uninstallAll - Uninstall all applications.
+TeamCode:uninstallDebug - Uninstalls the Debug build.
+FtcRobotController:uninstallDebugAndroidTest - Uninstalls the android (on device) tests for the Debug build.
+TeamCode:uninstallDebugAndroidTest - Uninstalls the android (on device) tests for the Debug build.
+TeamCode:uninstallRelease - Uninstalls the Release build.
+
+Verification tasks
+------------------
+FtcRobotController:check - Runs all checks.
+TeamCode:check - Runs all checks.
+FtcRobotController:connectedAndroidTest - Installs and runs instrumentation tests for all flavors on connected devices.
+TeamCode:connectedAndroidTest - Installs and runs instrumentation tests for all flavors on connected devices.
+FtcRobotController:connectedCheck - Runs all device checks on currently connected devices.
+TeamCode:connectedCheck - Runs all device checks on currently connected devices.
+FtcRobotController:connectedDebugAndroidTest - Installs and runs the tests for debug on connected devices.
+TeamCode:connectedDebugAndroidTest - Installs and runs the tests for debug on connected devices.
+FtcRobotController:deviceAndroidTest - Installs and runs instrumentation tests using all Device Providers.
+TeamCode:deviceAndroidTest - Installs and runs instrumentation tests using all Device Providers.
+FtcRobotController:deviceCheck - Runs all device checks using Device Providers and Test Servers.
+TeamCode:deviceCheck - Runs all device checks using Device Providers and Test Servers.
+FtcRobotController:lint - Runs lint on all variants.
+TeamCode:lint - Runs lint on all variants.
+FtcRobotController:lintDebug - Runs lint on the Debug build.
+TeamCode:lintDebug - Runs lint on the Debug build.
+FtcRobotController:lintRelease - Runs lint on the Release build.
+TeamCode:lintRelease - Runs lint on the Release build.
+TeamCode:lintVitalRelease - Runs lint on just the fatal issues in the release build.
+FtcRobotController:test - Run unit tests for all variants.
+TeamCode:test - Run unit tests for all variants.
+FtcRobotController:testDebugUnitTest - Run unit tests for the debug build.
+TeamCode:testDebugUnitTest - Run unit tests for the debug build.
+FtcRobotController:testReleaseUnitTest - Run unit tests for the release build.
+TeamCode:testReleaseUnitTest - Run unit tests for the release build.
+
+Other tasks
+-----------
+FtcRobotController:analyzeDebugAndroidTestDependencies
+TeamCode:analyzeDebugAndroidTestDependencies
+FtcRobotController:analyzeDebugDependencies
+TeamCode:analyzeDebugDependencies
+FtcRobotController:analyzeDebugUnitTestDependencies
+TeamCode:analyzeDebugUnitTestDependencies
+FtcRobotController:analyzeReleaseDependencies
+TeamCode:analyzeReleaseDependencies
+FtcRobotController:analyzeReleaseUnitTestDependencies
+TeamCode:analyzeReleaseUnitTestDependencies
+FtcRobotController:assembleDebug - Assembles main output for variant debug
+TeamCode:assembleDebug - Assembles main output for variant debug
+FtcRobotController:assembleDebugAndroidTest - Assembles main output for variant debugAndroidTest
+TeamCode:assembleDebugAndroidTest - Assembles main output for variant debugAndroidTest
+FtcRobotController:assembleDebugUnitTest - Assembles main output for variant debugUnitTest
+TeamCode:assembleDebugUnitTest - Assembles main output for variant debugUnitTest
+FtcRobotController:assembleRelease - Assembles main output for variant release
+TeamCode:assembleRelease - Assembles main output for variant release
+FtcRobotController:assembleReleaseUnitTest - Assembles main output for variant releaseUnitTest
+TeamCode:assembleReleaseUnitTest - Assembles main output for variant releaseUnitTest
+TeamCode:buildDebugPreBundle
+TeamCode:buildReleasePreBundle
+TeamCode:bundleDebug - Assembles bundle for variant debug
+FtcRobotController:bundleDebugAar - Assembles a bundle containing the library in debug.
+TeamCode:bundleDebugAndroidTestClasses
+FtcRobotController:bundleDebugAndroidTestResources
+TeamCode:bundleDebugAndroidTestResources
+TeamCode:bundleDebugClasses
+TeamCode:bundleDebugResources
+TeamCode:bundleDebugUnitTestClasses
+FtcRobotController:bundleLibCompileToJarDebug
+FtcRobotController:bundleLibCompileToJarDebugAndroidTest
+FtcRobotController:bundleLibCompileToJarDebugUnitTest
+FtcRobotController:bundleLibCompileToJarRelease
+FtcRobotController:bundleLibCompileToJarReleaseUnitTest
+FtcRobotController:bundleLibResDebug
+FtcRobotController:bundleLibResRelease
+FtcRobotController:bundleLibRuntimeToJarDebug
+FtcRobotController:bundleLibRuntimeToJarRelease
+TeamCode:bundleRelease - Assembles bundle for variant release
+FtcRobotController:bundleReleaseAar - Assembles a bundle containing the library in release.
+TeamCode:bundleReleaseClasses
+TeamCode:bundleReleaseResources
+TeamCode:bundleReleaseUnitTestClasses
+FtcRobotController:checkDebugAndroidTestDuplicateClasses
+TeamCode:checkDebugAndroidTestDuplicateClasses
+TeamCode:checkDebugDuplicateClasses
+FtcRobotController:checkDebugManifest
+TeamCode:checkDebugManifest
+TeamCode:checkReleaseDuplicateClasses
+FtcRobotController:checkReleaseManifest
+TeamCode:checkReleaseManifest
+TeamCode:collectReleaseDependencies
+FtcRobotController:compileDebugAidl
+TeamCode:compileDebugAidl
+FtcRobotController:compileDebugAndroidTestAidl
+TeamCode:compileDebugAndroidTestAidl
+FtcRobotController:compileDebugAndroidTestJavaWithJavac
+TeamCode:compileDebugAndroidTestJavaWithJavac
+FtcRobotController:compileDebugAndroidTestRenderscript
+TeamCode:compileDebugAndroidTestRenderscript
+FtcRobotController:compileDebugAndroidTestShaders
+TeamCode:compileDebugAndroidTestShaders
+FtcRobotController:compileDebugJavaWithJavac
+TeamCode:compileDebugJavaWithJavac
+FtcRobotController:compileDebugLibraryResources
+FtcRobotController:compileDebugRenderscript
+TeamCode:compileDebugRenderscript
+FtcRobotController:compileDebugShaders
+TeamCode:compileDebugShaders
+FtcRobotController:compileDebugUnitTestJavaWithJavac
+TeamCode:compileDebugUnitTestJavaWithJavac
+FtcRobotController:compileLint
+TeamCode:compileLint
+FtcRobotController:compileReleaseAidl
+TeamCode:compileReleaseAidl
+FtcRobotController:compileReleaseJavaWithJavac
+TeamCode:compileReleaseJavaWithJavac
+FtcRobotController:compileReleaseLibraryResources
+FtcRobotController:compileReleaseRenderscript
+TeamCode:compileReleaseRenderscript
+FtcRobotController:compileReleaseShaders
+TeamCode:compileReleaseShaders
+FtcRobotController:compileReleaseUnitTestJavaWithJavac
+TeamCode:compileReleaseUnitTestJavaWithJavac
+TeamCode:configureReleaseDependencies
+FtcRobotController:consumeConfigAttr
+TeamCode:consumeConfigAttr
+FtcRobotController:copyDebugJniLibsProjectAndLocalJars
+FtcRobotController:copyDebugJniLibsProjectOnly
+FtcRobotController:copyLibRuntimeToDirDebug
+FtcRobotController:copyLibRuntimeToDirRelease
+FtcRobotController:copyReleaseJniLibsProjectAndLocalJars
+FtcRobotController:copyReleaseJniLibsProjectOnly
+TeamCode:createDebugCompatibleScreenManifests
+FtcRobotController:createFullJarDebug
+FtcRobotController:createFullJarRelease
+FtcRobotController:createMockableJar
+TeamCode:createMockableJar
+TeamCode:createReleaseCompatibleScreenManifests
+TeamCode:dexBuilderDebug
+FtcRobotController:dexBuilderDebugAndroidTest
+TeamCode:dexBuilderDebugAndroidTest
+TeamCode:dexBuilderRelease
+FtcRobotController:dexDebug
+FtcRobotController:dexRelease
+FtcRobotController:exportDebugConsumerProguardFiles
+FtcRobotController:exportReleaseConsumerProguardFiles
+TeamCode:extractApksForDebug
+TeamCode:extractApksForRelease
+FtcRobotController:extractDeepLinksDebug
+TeamCode:extractDeepLinksDebug
+FtcRobotController:extractDeepLinksRelease
+TeamCode:extractDeepLinksRelease
+FtcRobotController:extractProguardFiles
+TeamCode:extractProguardFiles
+FtcRobotController:generateDebugAndroidTestAssets
+TeamCode:generateDebugAndroidTestAssets
+FtcRobotController:generateDebugAndroidTestBuildConfig
+TeamCode:generateDebugAndroidTestBuildConfig
+FtcRobotController:generateDebugAndroidTestResources
+TeamCode:generateDebugAndroidTestResources
+FtcRobotController:generateDebugAndroidTestResValues
+TeamCode:generateDebugAndroidTestResValues
+FtcRobotController:generateDebugAndroidTestSources
+TeamCode:generateDebugAndroidTestSources
+FtcRobotController:generateDebugAssets
+TeamCode:generateDebugAssets
+FtcRobotController:generateDebugBuildConfig
+TeamCode:generateDebugBuildConfig
+TeamCode:generateDebugFeatureMetadata
+TeamCode:generateDebugFeatureTransitiveDeps
+FtcRobotController:generateDebugResources
+TeamCode:generateDebugResources
+FtcRobotController:generateDebugResValues
+TeamCode:generateDebugResValues
+FtcRobotController:generateDebugRFile
+FtcRobotController:generateDebugSources
+TeamCode:generateDebugSources
+FtcRobotController:generateDebugUnitTestAssets
+TeamCode:generateDebugUnitTestAssets
+FtcRobotController:generateDebugUnitTestResources
+TeamCode:generateDebugUnitTestResources
+FtcRobotController:generateDebugUnitTestSources
+TeamCode:generateDebugUnitTestSources
+FtcRobotController:generateDebugUnitTestStubRFile
+FtcRobotController:generateReleaseAssets
+TeamCode:generateReleaseAssets
+FtcRobotController:generateReleaseBuildConfig
+TeamCode:generateReleaseBuildConfig
+TeamCode:generateReleaseFeatureMetadata
+TeamCode:generateReleaseFeatureTransitiveDeps
+FtcRobotController:generateReleaseResources
+TeamCode:generateReleaseResources
+FtcRobotController:generateReleaseResValues
+TeamCode:generateReleaseResValues
+FtcRobotController:generateReleaseRFile
+FtcRobotController:generateReleaseSources
+TeamCode:generateReleaseSources
+FtcRobotController:generateReleaseUnitTestAssets
+TeamCode:generateReleaseUnitTestAssets
+FtcRobotController:generateReleaseUnitTestResources
+TeamCode:generateReleaseUnitTestResources
+FtcRobotController:generateReleaseUnitTestSources
+TeamCode:generateReleaseUnitTestSources
+FtcRobotController:generateReleaseUnitTestStubRFile
+FtcRobotController:javaPreCompileDebug
+TeamCode:javaPreCompileDebug
+FtcRobotController:javaPreCompileDebugAndroidTest
+TeamCode:javaPreCompileDebugAndroidTest
+FtcRobotController:javaPreCompileDebugUnitTest
+TeamCode:javaPreCompileDebugUnitTest
+FtcRobotController:javaPreCompileRelease
+TeamCode:javaPreCompileRelease
+FtcRobotController:javaPreCompileReleaseUnitTest
+TeamCode:javaPreCompileReleaseUnitTest
+TeamCode:makeApkFromBundleForDebug
+TeamCode:makeApkFromBundleForRelease
+FtcRobotController:mergeDebugAndroidTestAssets
+TeamCode:mergeDebugAndroidTestAssets
+FtcRobotController:mergeDebugAndroidTestGeneratedProguardFiles
+TeamCode:mergeDebugAndroidTestGeneratedProguardFiles
+FtcRobotController:mergeDebugAndroidTestJavaResource
+TeamCode:mergeDebugAndroidTestJavaResource
+FtcRobotController:mergeDebugAndroidTestJniLibFolders
+TeamCode:mergeDebugAndroidTestJniLibFolders
+FtcRobotController:mergeDebugAndroidTestNativeLibs
+TeamCode:mergeDebugAndroidTestNativeLibs
+FtcRobotController:mergeDebugAndroidTestResources
+TeamCode:mergeDebugAndroidTestResources
+FtcRobotController:mergeDebugAndroidTestShaders
+TeamCode:mergeDebugAndroidTestShaders
+FtcRobotController:mergeDebugAssets
+TeamCode:mergeDebugAssets
+FtcRobotController:mergeDebugConsumerProguardFiles
+FtcRobotController:mergeDebugGeneratedProguardFiles
+TeamCode:mergeDebugGeneratedProguardFiles
+FtcRobotController:mergeDebugJavaResource
+TeamCode:mergeDebugJavaResource
+FtcRobotController:mergeDebugJniLibFolders
+TeamCode:mergeDebugJniLibFolders
+FtcRobotController:mergeDebugNativeLibs
+TeamCode:mergeDebugNativeLibs
+FtcRobotController:mergeDebugResources
+TeamCode:mergeDebugResources
+FtcRobotController:mergeDebugShaders
+TeamCode:mergeDebugShaders
+TeamCode:mergeDexRelease
+TeamCode:mergeExtDexDebug
+FtcRobotController:mergeExtDexDebugAndroidTest
+TeamCode:mergeExtDexDebugAndroidTest
+TeamCode:mergeExtDexRelease
+TeamCode:mergeLibDexDebug
+FtcRobotController:mergeLibDexDebugAndroidTest
+TeamCode:mergeLibDexDebugAndroidTest
+TeamCode:mergeProjectDexDebug
+FtcRobotController:mergeProjectDexDebugAndroidTest
+TeamCode:mergeProjectDexDebugAndroidTest
+FtcRobotController:mergeReleaseAssets
+TeamCode:mergeReleaseAssets
+FtcRobotController:mergeReleaseConsumerProguardFiles
+FtcRobotController:mergeReleaseGeneratedProguardFiles
+TeamCode:mergeReleaseGeneratedProguardFiles
+FtcRobotController:mergeReleaseJavaResource
+TeamCode:mergeReleaseJavaResource
+FtcRobotController:mergeReleaseJniLibFolders
+TeamCode:mergeReleaseJniLibFolders
+FtcRobotController:mergeReleaseNativeLibs
+TeamCode:mergeReleaseNativeLibs
+FtcRobotController:mergeReleaseResources
+TeamCode:mergeReleaseResources
+FtcRobotController:mergeReleaseShaders
+TeamCode:mergeReleaseShaders
+TeamCode:packageDebug
+FtcRobotController:packageDebugAndroidTest
+TeamCode:packageDebugAndroidTest
+FtcRobotController:packageDebugAssets
+TeamCode:packageDebugBundle
+FtcRobotController:packageDebugRenderscript
+FtcRobotController:packageDebugResources
+TeamCode:packageDebugUniversalApk
+TeamCode:packageRelease
+FtcRobotController:packageReleaseAssets
+TeamCode:packageReleaseBundle
+FtcRobotController:packageReleaseRenderscript
+FtcRobotController:packageReleaseResources
+TeamCode:packageReleaseUniversalApk
+TeamCode:parseDebugIntegrityConfig
+FtcRobotController:parseDebugLocalResources
+TeamCode:parseReleaseIntegrityConfig
+FtcRobotController:parseReleaseLocalResources
+FtcRobotController:preBuild
+TeamCode:preBuild
+FtcRobotController:preDebugAndroidTestBuild
+TeamCode:preDebugAndroidTestBuild
+FtcRobotController:preDebugBuild
+TeamCode:preDebugBuild
+FtcRobotController:preDebugUnitTestBuild
+TeamCode:preDebugUnitTestBuild
+prepareKotlinBuildScriptModel
+FtcRobotController:prepareLintJar
+TeamCode:prepareLintJar
+FtcRobotController:prepareLintJarForPublish
+TeamCode:prepareLintJarForPublish
+FtcRobotController:preReleaseBuild
+TeamCode:preReleaseBuild
+FtcRobotController:preReleaseUnitTestBuild
+TeamCode:preReleaseUnitTestBuild
+FtcRobotController:processDebugAndroidTestJavaRes
+TeamCode:processDebugAndroidTestJavaRes
+FtcRobotController:processDebugAndroidTestManifest
+TeamCode:processDebugAndroidTestManifest
+FtcRobotController:processDebugAndroidTestResources
+TeamCode:processDebugAndroidTestResources
+FtcRobotController:processDebugJavaRes
+TeamCode:processDebugJavaRes
+FtcRobotController:processDebugManifest
+TeamCode:processDebugManifest
+TeamCode:processDebugResources
+FtcRobotController:processDebugUnitTestJavaRes
+TeamCode:processDebugUnitTestJavaRes
+FtcRobotController:processReleaseJavaRes
+TeamCode:processReleaseJavaRes
+FtcRobotController:processReleaseManifest
+TeamCode:processReleaseManifest
+TeamCode:processReleaseResources
+FtcRobotController:processReleaseUnitTestJavaRes
+TeamCode:processReleaseUnitTestJavaRes
+FtcRobotController:reportBuildArtifactsDebug
+TeamCode:reportBuildArtifactsDebug
+FtcRobotController:reportBuildArtifactsRelease
+TeamCode:reportBuildArtifactsRelease
+FtcRobotController:resolveConfigAttr
+TeamCode:resolveConfigAttr
+TeamCode:sdkReleaseDependencyData
+TeamCode:signDebugBundle
+TeamCode:signingConfigWriterDebug
+FtcRobotController:signingConfigWriterDebugAndroidTest
+TeamCode:signingConfigWriterDebugAndroidTest
+TeamCode:signingConfigWriterRelease
+TeamCode:signReleaseBundle
+FtcRobotController:stripDebugDebugSymbols
+TeamCode:stripDebugDebugSymbols
+FtcRobotController:stripReleaseDebugSymbols
+TeamCode:stripReleaseDebugSymbols
+FtcRobotController:syncDebugLibJars
+FtcRobotController:syncReleaseLibJars
+TeamCode:validateSigningDebug
+FtcRobotController:validateSigningDebugAndroidTest
+TeamCode:validateSigningDebugAndroidTest
+TeamCode:validateSigningRelease
+FtcRobotController:verifyReleaseResources
+TeamCode:writeDebugApplicationId
+TeamCode:writeDebugModuleMetadata
+TeamCode:writeReleaseApplicationId
+TeamCode:writeReleaseModuleMetadata
+TeamCode:zipApksForDebug
+TeamCode:zipApksForRelease
+
+BUILD SUCCESSFUL in 874ms
+1 actionable task: 1 executed

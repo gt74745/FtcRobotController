@@ -12,8 +12,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-@Autonomous(name="Inequality based tester", group="Auton Test Suite")
-public class InequalityAuton extends LinearOpMode
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name="Proportional based tester", group="Auton Test Suite")
+public class Auton extends LinearOpMode
 {
     DcMotor leftFrontMotor, rightFrontMotor, leftBackMotor, rightBackMotor;
     BNO055IMU imu;
@@ -26,6 +26,7 @@ public class InequalityAuton extends LinearOpMode
     double distancePerTick = (2 * Math.PI * 48) / 537.6;
     int instruction = 1;
     double globalAngle = 0;
+    double kP = 0.03;
     ElapsedTime runtime = new ElapsedTime();
 
     @Override
@@ -33,26 +34,7 @@ public class InequalityAuton extends LinearOpMode
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        leftFrontMotor = hardwareMap.dcMotor.get("leftFrontMotor");
-        rightFrontMotor = hardwareMap.dcMotor.get("rightFrontMotor");
-        leftBackMotor = hardwareMap.dcMotor.get("leftBackMotor");
-        rightBackMotor = hardwareMap.dcMotor.get("rightBackMotor");
-        rightFrontMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-        rightBackMotor.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        leftFrontMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightBackMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-
-        parameters.mode = BNO055IMU.SensorMode.IMU;
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.loggingEnabled = false;
-
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
-
-        imu.initialize(parameters);
+        initializeHardware();
 
         waitForStart();
 
@@ -60,19 +42,63 @@ public class InequalityAuton extends LinearOpMode
 
         while (opModeIsActive())
         {
-            // Fill this section with variables when your shit doesn't work
+            // For debug
             telemetry.addData("1 positiveDistanceTraveled", positiveDistanceTraveled);
             telemetry.addData("2 negativeDistanceTraveled", negativeDistanceTraveled);
             telemetry.addData("3 leftFrontPower", leftFrontPower);
             telemetry.addData("4 rightFrontPower", rightFrontPower);
             telemetry.update();
 
-            // Call functions to actually move the thing
-            move(320/Math.sqrt(2), 320/Math.sqrt(2));
+            //Blue target zones
+//            if (step == 1) move(760, 915); // Nearest zone
+//            if (step == 1) move(1065, 915); // Middle zone
+//            if (step == 1) move(1220, 1370); // Far zone
+
+            //Red target zones
+//            if (step == 1) move(915, 760); // Nearest zone
+//            if (step == 1) move(915, 1065); // Middle zone
+//            if (step == 1) move(1370, 1220); // Far zone
+
+//            if (step == 2) move(915, 915); // Just Navigate
+
+            if (step == 1) move(0, 760);
         }
     }
 
-    void move(double posTarget, double negTarget)
+    private void initializeHardware()
+    {
+        //Init motors
+        leftFrontMotor = hardwareMap.dcMotor.get("leftFrontMotor");
+        leftFrontMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        leftFrontMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        leftBackMotor = hardwareMap.dcMotor.get("leftBackMotor");
+        leftBackMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        leftBackMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        rightFrontMotor = hardwareMap.dcMotor.get("rightFrontMotor");
+        rightFrontMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightFrontMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        rightBackMotor = hardwareMap.dcMotor.get("rightBackMotor");
+        rightBackMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        rightBackMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        //Init IMU
+        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+
+        parameters.mode = BNO055IMU.SensorMode.IMU;
+
+        // Calculate the motor powers;
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
+        parameters.loggingEnabled = false;
+
+        imu = hardwareMap.get(BNO055IMU.class, "imu");
+        imu.initialize(parameters);
+    }
+
+    void getMotorPositions()
     {
         // Update the positions of each individual motor
         leftFrontMotorPos = leftFrontMotor.getCurrentPosition();
@@ -94,24 +120,32 @@ public class InequalityAuton extends LinearOpMode
         deltaRightBackMotorPos = distancePerTick * (rightBackMotorPos - previousRightBackMotorPos);
         rightBackDistanceTraveled += deltaRightBackMotorPos;
         previousRightBackMotorPos = rightBackMotorPos;
+    }
+
+    void move(double posTarget, double negTarget)
+    {
+        getMotorPositions();
 
         positiveDistanceTraveled = (leftFrontDistanceTraveled + rightBackDistanceTraveled) / 2;
         negativeDistanceTraveled = (leftBackDistanceTraveled + rightFrontDistanceTraveled) / 2;
 
+        double positiveError = (posTarget) - positiveDistanceTraveled;
+        double negativeError = (negTarget) - negativeDistanceTraveled;
+
         // Calculate the motor powers
-        if (positiveDistanceTraveled < (posTarget)) { leftFrontPower = Math.pow(runtime.milliseconds()/1000,2); rightBackPower = Math.pow(runtime.milliseconds()/1000,2); }
-        if (negativeDistanceTraveled < (negTarget)) { rightFrontPower = Math.pow(runtime.milliseconds()/1000,2); leftBackPower = Math.pow(runtime.milliseconds()/1000,2); }
-        if (positiveDistanceTraveled > (posTarget)) { leftFrontPower = -Math.pow(runtime.milliseconds()/1000,2); rightBackPower = -Math.pow(runtime.milliseconds()/1000,2); }
-        if (negativeDistanceTraveled > (negTarget)) { rightFrontPower = -Math.pow(runtime.milliseconds()/1000,2); leftBackPower = -Math.pow(runtime.milliseconds()/1000,2); }
+        leftFrontPower = (kP * positiveError);
+        rightFrontPower = (kP * negativeError);
+        leftBackPower = (kP * negativeError);
+        rightBackPower = (kP * positiveError);
 
         // Stop if we reach the target position
-        if (positiveDistanceTraveled <= (posTarget + 10) && positiveDistanceTraveled >= (posTarget - 10))
+        if (positiveError > -10 && positiveError < 10)
         {
             leftFrontPower = 0;
             rightBackPower = 0;
         }
 
-        if (negativeDistanceTraveled <= (negTarget + 10) && negativeDistanceTraveled >= (negTarget - 10))
+        if (negativeError > -10 && negativeError < 10)
         {
             rightFrontPower = 0;
             leftBackPower = 0;
@@ -132,9 +166,9 @@ public class InequalityAuton extends LinearOpMode
     void turn(double degrees)
     {
         // Get the current orientation of the bot
-        double angle = getOrientation();
+        double angle = getAngle();
 
-        degrees -= 13;
+        degrees -= 13; //Account for +13 degrees gltich.
 
         // Make sure we're not at the target. If not, move. If so, stop.
         if (angle < degrees) {
@@ -164,7 +198,7 @@ public class InequalityAuton extends LinearOpMode
         rightBackMotor.setPower(rightBackPower);
     }
 
-    private double getOrientation()
+    private double getAngle()
     {
         // Get the orientation from the gyroscope
         Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
