@@ -12,8 +12,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-@Autonomous(name="Proportional based tester", group="Auton Test Suite")
-public class ProportionalAuton extends LinearOpMode
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name="Proportional based tester", group="Auton Test Suite")
+public class Auton extends LinearOpMode
 {
     DcMotor leftFrontMotor, rightFrontMotor, leftBackMotor, rightBackMotor;
     BNO055IMU imu;
@@ -26,6 +26,7 @@ public class ProportionalAuton extends LinearOpMode
     double distancePerTick = (2 * Math.PI * 48) / 537.6;
     int instruction = 1;
     double globalAngle = 0;
+    double kP = 0.03;
     ElapsedTime runtime = new ElapsedTime();
 
     @Override
@@ -48,7 +49,19 @@ public class ProportionalAuton extends LinearOpMode
             telemetry.addData("4 rightFrontPower", rightFrontPower);
             telemetry.update();
 
-            move(220, 220);
+            //Blue target zones
+//            if (step == 1) move(760, 915); // Nearest zone
+//            if (step == 1) move(1065, 915); // Middle zone
+//            if (step == 1) move(1220, 1370); // Far zone
+
+            //Red target zones
+//            if (step == 1) move(915, 760); // Nearest zone
+//            if (step == 1) move(915, 1065); // Middle zone
+//            if (step == 1) move(1370, 1220); // Far zone
+
+//            if (step == 2) move(915, 915); // Just Navigate
+
+            if (step == 1) move(0, 760);
         }
     }
 
@@ -75,6 +88,8 @@ public class ProportionalAuton extends LinearOpMode
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
 
         parameters.mode = BNO055IMU.SensorMode.IMU;
+
+        // Calculate the motor powers;
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.loggingEnabled = false;
@@ -114,23 +129,14 @@ public class ProportionalAuton extends LinearOpMode
         positiveDistanceTraveled = (leftFrontDistanceTraveled + rightBackDistanceTraveled) / 2;
         negativeDistanceTraveled = (leftBackDistanceTraveled + rightFrontDistanceTraveled) / 2;
 
-        double positiveError = (posTarget / Math.sqrt(2)) - positiveDistanceTraveled;
-        double negativeError = (negTarget / Math.sqrt(2)) - negativeDistanceTraveled;
+        double positiveError = (posTarget) - positiveDistanceTraveled;
+        double negativeError = (negTarget) - negativeDistanceTraveled;
 
         // Calculate the motor powers
-        if (runtime.milliseconds() < 1000)
-        {
-            leftFrontPower = Math.pow(runtime.milliseconds() / 1000, 2);
-            rightFrontPower = Math.pow(runtime.milliseconds() / 1000, 2);
-            leftBackPower = Math.pow(runtime.milliseconds() / 1000, 2);
-            rightBackPower = Math.pow(runtime.milliseconds() / 1000, 2);
-        } else
-        {
-            leftFrontPower = 0.034 * positiveError;
-            rightFrontPower = 0.034 * negativeError;
-            leftBackPower = 0.034 * negativeError;
-            rightBackPower = 0.034 * positiveError;
-        }
+        leftFrontPower = (kP * positiveError);
+        rightFrontPower = (kP * negativeError);
+        leftBackPower = (kP * negativeError);
+        rightBackPower = (kP * positiveError);
 
         // Stop if we reach the target position
         if (positiveError > -10 && positiveError < 10)
