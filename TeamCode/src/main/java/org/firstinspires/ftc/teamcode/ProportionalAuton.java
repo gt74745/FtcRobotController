@@ -48,13 +48,8 @@ public class ProportionalAuton extends LinearOpMode
             telemetry.addData("4 rightFrontPower", rightFrontPower);
             telemetry.update();
 
-<<<<<<< HEAD
-            // Call functions to actually move the thing
             move(220, 220);
-=======
-            // Move functions
             move(220/Math.sqrt(2), 220/Math.sqrt(2));
->>>>>>> 70c4190c455c22781254326fbfc80836280008d0
         }
     }
 
