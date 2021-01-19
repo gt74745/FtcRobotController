@@ -61,7 +61,7 @@ public class Auton extends LinearOpMode
 
 //            if (step == 2) move(915, 915); // Just Navigate
 
-            if (step == 1) move(0, 760);
+            if (instruction == 1) move(0, 760);
         }
     }
 

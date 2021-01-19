@@ -29,7 +29,6 @@ public class Drive extends LinearOpMode {
     private double lfMotorPos, lastLfMotorPos, deltaLfMotorPos, lfMotorDist; //Using lf motor pos for debug stats.
     private double correction, target, globalHeading; //Make sure robot corrects itself to hit target.
 
-
     //Utility
     private ControllerHelper controllerHelper;
 
