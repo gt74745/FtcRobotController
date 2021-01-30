@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -12,10 +13,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
-@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name="Proportional based tester", group="Auton Test Suite")
+@com.qualcomm.robotcore.eventloop.opmode.Autonomous(name="Working Auton", group="Auton Finalization")
 public class Auton extends LinearOpMode
 {
-    DcMotor leftFrontMotor, rightFrontMotor, leftBackMotor, rightBackMotor;
+    DcMotor leftFrontMotor, rightFrontMotor, leftBackMotor, rightBackMotor, flyWheelMotor;
+	Servo pushServo;
     BNO055IMU imu;
     Orientation lastAngles = new Orientation();
     public double leftFrontMotorPos, leftFrontDistanceTraveled = 0, deltaLeftFrontMotorPos = 0, previousLeftFrontMotorPos, leftFrontPower;
@@ -39,6 +41,8 @@ public class Auton extends LinearOpMode
         waitForStart();
 
         runtime.reset();
+
+		flyWheelMotor.setPower(0.75);
 
         while (opModeIsActive())
         {
@@ -83,6 +87,12 @@ public class Auton extends LinearOpMode
         rightBackMotor = hardwareMap.dcMotor.get("rightBackMotor");
         rightBackMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         rightBackMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        flyWheelMotor = hardwareMap.dcMotor.get("flyWheelMotor");
+        flyWheelMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        flyWheelMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+		pushServo = hardwareMap.servo.get("pushServo");
 
         //Init IMU
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -219,5 +229,15 @@ public class Auton extends LinearOpMode
 
         return globalAngle;
     }
+
+	public void loadRing() {
+		pushServo.setPosition(0.25);
+	}
+
+	public void resetServo() {
+		pushServo.setPosition(0);
+	}
+
+	public void launchRing() {}	
 }
 
