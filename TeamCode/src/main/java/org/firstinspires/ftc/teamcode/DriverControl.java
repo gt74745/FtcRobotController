@@ -4,7 +4,6 @@ import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -19,7 +18,7 @@ public class DriverControl extends LinearOpMode {
     Orientation lastAngles = new Orientation();
     double globalAngle, correction, horizontal, vertical, joystickDistanceFromOrigin, angle, pwr, pwr2, target, leftFrontMotorPos;
     // Circumference of the wheels divided by ticks per revolution
-    double distancePerTick = (2 * Math.PI * 48) / 537.6a
+    double distancePerTick = (2 * Math.PI * 48) / 537.6;
     double previousLeftFrontMotorPos = 0;
     double deltaLeftFrontMotorPos = 0;
     double leftFrontDistanceTraveled = 0;
@@ -34,10 +33,10 @@ public class DriverControl extends LinearOpMode {
         telemetry.update();
 
         // make sure the imu gyro is calibrated before continuing.
-        while (!isStopRequested() && !imu.isGyroCalibrated()) {
+        /*while (!isStopRequested() && !imu.isGyroCalibrated()) {
             sleep(50);
             idle();
-        }
+        }*/
 
         telemetry.addData("Mode", "waiting for start");
         telemetry.addData("imu calib status", imu.getCalibrationStatus().toString());
@@ -50,7 +49,7 @@ public class DriverControl extends LinearOpMode {
         telemetry.addData("Mode", "running");
         telemetry.update();
 
-	flyWheelMotor.setPower(0.75); // 
+	    //flyWheelMotor.setPower(0.75); //
 
         sleep(1000);
 
@@ -71,8 +70,8 @@ public class DriverControl extends LinearOpMode {
             vertical = gamepad1.left_stick_y;
             double turning = gamepad1.right_stick_x;
 	    
-	    boolean triggerIsPressed = gamepad1.right_bumper; 
-	    boolean ringLoaded = false;
+	        boolean triggerIsPressed = gamepad1.a;
+	        boolean ringLoaded = false;
 
             // Calculate distance between the current joystick position and the idle position
             joystickDistanceFromOrigin = Math.sqrt(Math.pow(horizontal, 2) + Math.pow(vertical, 2));
@@ -106,16 +105,15 @@ public class DriverControl extends LinearOpMode {
                 rightBackMotor.setPower(0.75 * pwr + correction);
             }
 
-	    //Load and shoot rings.
-	    if (triggerIsPressed) {
-		loadRing();
-		ringLoaded = true;
-	    }			
+	        //Load and shoot rings.
+    	    if (triggerIsPressed) {
+        		loadRing();
+        		sleep(250);
+    	    }
 
-	    if (!triggerIsPressed && ringLoaded) {
-		resetServo();
-		ringLoaded = false;
-	    }
+    	    if (!triggerIsPressed) {
+    	    	resetServo();
+    	    }
 
             leftFrontMotorPos = leftFrontMotor.getCurrentPosition();
             deltaLeftFrontMotorPos = distancePerTick * (leftFrontMotorPos - previousLeftFrontMotorPos);
@@ -145,10 +143,11 @@ public class DriverControl extends LinearOpMode {
         rightBackMotor = hardwareMap.dcMotor.get("rightBackMotor");
         rightBackMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-	flyWheelMotor = hardwareMap.dcMotor.get("flyWheelMotor");
-        flyWheelMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+	    //flyWheelMotor = hardwareMap.dcMotor.get("flyWheelMotor");
+        //flyWheelMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-	pushServo = hardwareMap.servo.get("pushServo");
+	    pushServo = hardwareMap.servo.get("pushServo");
+	    resetServo();
 
         //Init IMU
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
@@ -228,11 +227,11 @@ public class DriverControl extends LinearOpMode {
 
     public void loadRing() {
 	// actuate the piston forward push the bottom ring into the flywheel.
-	pushServo.setPosition(0.25);
+	pushServo.setPosition(0.95);
     }
 
     public void resetServo() {
 	// reset the position of the servo.
-	pushServo.setPosition(0);
+	pushServo.setPosition(0.9);
     }
 }

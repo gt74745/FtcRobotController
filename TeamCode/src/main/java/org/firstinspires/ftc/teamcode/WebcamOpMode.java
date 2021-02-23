@@ -1,7 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.opencv.core.Core;
@@ -12,52 +13,77 @@ import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
-import org.openftc.easyopencv.OpenCvInternalCamera;
+import org.openftc.easyopencv.OpenCvCameraRotation;
 import org.openftc.easyopencv.OpenCvPipeline;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Autonomous
+@TeleOp
+@Disabled
 public class WebcamOpMode extends LinearOpMode {
-    public static int valBottom = -1;
     public static int valTop = -1;
+    public static int valBottom = -1;
 
-    private static float rectHeight = 8f / .6f;
-    private static float rectWidth = 8f / 1.5f;
+    private static float rectHeight = 8f/.6f;
+    private static float rectWidth = 8f/1.5f;
 
-    private static float offsetX = 0f / 8f;//changing this moves the three rects and the three circles top or right, range : (-2, 2) not inclusive
-    private static float offsetY = 0f / 8f;//changing this moves the three rects and circles up or down, range: (-4, 4) not inclusive
+    private static float offsetX = 0f/8f;//changing this moves the three rects and the three circles left or right, range : (-2, 2) not inclusive
+    private static float offsetY = 0f/8f;//changing this moves the three rects and circles up or down, range: (-4, 4) not inclusive
 
-    private static float[] bottomPos = {4f / 8f + offsetX, 4f / 8f + offsetY};//0 = col, 1 = row
-    private static float[] topPos = {4f / 8f + offsetX, 2f / 8f + offsetY};
-    //moves all rectangles right or top by amount. units are in ratio to monitor
+    private static float[] topPos = {4f/8f+offsetX, 2f/8f+offsetY};//0 = col, 1 = row
+    private static float[] bottomPos = {4f/8f+offsetX, 4f/8f+offsetY};
+    //moves all rectangles right or left by amount. units are in ratio to monitor
 
     private final int rows = 640;
     private final int cols = 480;
 
     OpenCvCamera webcam;
 
-    public void startCam() {
-
+    public void startCamera()
+    {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-
-        //P.S. if you're using the latest version of easyopencv, you might need to change the next line to the following:
         webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
-        //webcam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
 
-        webcam.openCameraDevice();//open camera
-        webcam.setPipeline(new StageSwitchingPipeline());//different stages
-        webcam.startStreaming(rows, cols);//display on RC
-        //width, height
-        //width = height in this case, because camera is in portrait mode.
+        webcam.setPipeline(new StageSwitchingPipeline());
+
+        webcam.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
+            @Override
+            public void onOpened() {
+                webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
+            }
+        });
     }
 
-    private void stopCam() {
-        webcam.closeCameraDevice();
+    @Override
+    public void runOpMode() {
+
+        telemetry.addLine("Waiting for start");
+        telemetry.update();
+
+        waitForStart();
+
+        startCamera();
+
+        while (opModeIsActive()) {
+            telemetry.addData("Frame Count", webcam.getFrameCount());
+            telemetry.addData("FPS", String.format("%.2f", webcam.getFps()));
+            telemetry.addData("Total frame time ms", webcam.getTotalFrameTimeMs());
+            telemetry.addData("Pipeline time ms", webcam.getPipelineTimeMs());
+            telemetry.addData("Overhead time ms", webcam.getOverheadTimeMs());
+            telemetry.addData("Theoretical max FPS", webcam.getCurrentPipelineMaxFps());
+            telemetry.addData("valBottom", valBottom);
+            telemetry.addData("valTop", valTop);
+
+            telemetry.update();
+
+            if (gamepad1.a) {
+                webcam.stopStreaming();
+            }
+            sleep(100);
+        }
     }
 
-    //detection pipeline
     static class StageSwitchingPipeline extends OpenCvPipeline {
         Mat yCbCrChan2Mat = new Mat();
         Mat thresholdMat = new Mat();
@@ -89,6 +115,7 @@ public class WebcamOpMode extends LinearOpMode {
                 nextStageNum = 0;
             }
 
+
             stageToRenderToViewport = stages[nextStageNum];
         }
 
@@ -107,7 +134,7 @@ public class WebcamOpMode extends LinearOpMode {
             Core.extractChannel(yCbCrChan2Mat, yCbCrChan2Mat, 2);//takes cb difference and stores
 
             //b&w
-            Imgproc.threshold(yCbCrChan2Mat, thresholdMat, 102, 255, Imgproc.THRESH_BINARY_INV);
+            Imgproc.threshold(yCbCrChan2Mat, thresholdMat, 120, 255, Imgproc.THRESH_BINARY_INV);
 
             //outline/contour
             Imgproc.findContours(thresholdMat, contoursList, new Mat(), Imgproc.RETR_LIST, Imgproc.CHAIN_APPROX_SIMPLE);
@@ -116,31 +143,22 @@ public class WebcamOpMode extends LinearOpMode {
 
 
             //get values from frame
-            double[] pixBottom = thresholdMat.get((int) (input.rows() * bottomPos[1]), (int) (input.cols() * bottomPos[0]));//gets value at circle
-            valBottom = (int) pixBottom[0];
-
             double[] pixTop = thresholdMat.get((int) (input.rows() * topPos[1]), (int) (input.cols() * topPos[0]));//gets value at circle
             valTop = (int) pixTop[0];
 
+            double[] pixBottom = thresholdMat.get((int) (input.rows() * bottomPos[1]), (int) (input.cols() * bottomPos[0]));//gets value at circle
+            valBottom = (int) pixBottom[0];
+
             //create three points
-            Point pointBottom = new Point((int) (input.cols() * bottomPos[0]), (int) (input.rows() * bottomPos[1]));
             Point pointTop = new Point((int) (input.cols() * topPos[0]), (int) (input.rows() * topPos[1]));
+            Point pointBottom = new Point((int) (input.cols() * bottomPos[0]), (int) (input.rows() * bottomPos[1]));
 
             //draw circles on those points
-            Imgproc.circle(all, pointBottom, 5, new Scalar(255, 0, 0), 1);//draws circle
             Imgproc.circle(all, pointTop, 5, new Scalar(255, 0, 0), 1);//draws circle
+            Imgproc.circle(all, pointBottom, 5, new Scalar(255, 0, 0), 1);//draws circle
 
             //draw 3 rectangles
             Imgproc.rectangle(//1-3
-                    all,
-                    new Point(
-                            input.cols() * (topPos[0] - rectWidth / 2),
-                            input.rows() * (topPos[1] - rectHeight / 2)),
-                    new Point(
-                            input.cols() * (topPos[0] + rectWidth / 2),
-                            input.rows() * (topPos[1] + rectHeight / 2)),
-                    new Scalar(0, 255, 0), 3);
-            Imgproc.rectangle(//3-5
                     all,
                     new Point(
                             input.cols() * (bottomPos[0] - rectWidth / 2),
@@ -148,6 +166,15 @@ public class WebcamOpMode extends LinearOpMode {
                     new Point(
                             input.cols() * (bottomPos[0] + rectWidth / 2),
                             input.rows() * (bottomPos[1] + rectHeight / 2)),
+                    new Scalar(0, 255, 0), 3);
+            Imgproc.rectangle(//3-5
+                    all,
+                    new Point(
+                            input.cols() * (topPos[0] - rectWidth / 2),
+                            input.rows() * (topPos[1] - rectHeight / 2)),
+                    new Point(
+                            input.cols() * (topPos[0] + rectWidth / 2),
+                            input.rows() * (topPos[1] + rectHeight / 2)),
                     new Scalar(0, 255, 0), 3);
 
             switch (stageToRenderToViewport) {
@@ -168,16 +195,5 @@ public class WebcamOpMode extends LinearOpMode {
                 }
             }
         }
-    }
-
-    public void runOpMode()
-    {
-        waitForStart();
-
-        startCam();
-
-	while(opModeIsActive()) {
-	    return;
-	}	    
     }
 }
