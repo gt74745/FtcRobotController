@@ -12,7 +12,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 
 @TeleOp(name="Perfected Driver", group="XDrive")
 public class DriverControl extends LinearOpMode {
-    DcMotor leftFrontMotor, leftBackMotor, rightFrontMotor, rightBackMotor, flyWheelMotor;
+    DcMotor leftFrontMotor, leftBackMotor, rightFrontMotor, rightBackMotor, flyWheelMotor, pickupMotor;
     Servo pushServo;
     BNO055IMU imu;
     Orientation lastAngles = new Orientation();
@@ -49,7 +49,8 @@ public class DriverControl extends LinearOpMode {
         telemetry.addData("Mode", "running");
         telemetry.update();
 
-	    //flyWheelMotor.setPower(0.75); //
+	    flyWheelMotor.setPower(0.75); //
+        pickupMotor.setPower(-0.25);
 
         sleep(1000);
 
@@ -143,8 +144,12 @@ public class DriverControl extends LinearOpMode {
         rightBackMotor = hardwareMap.dcMotor.get("rightBackMotor");
         rightBackMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-	    //flyWheelMotor = hardwareMap.dcMotor.get("flyWheelMotor");
-        //flyWheelMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+	    flyWheelMotor = hardwareMap.dcMotor.get("flyWheelMotor");
+        flyWheelMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        pickupMotor = hardwareMap.dcMotor.get("pickupMotor");
+        pickupMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
 	    pushServo = hardwareMap.servo.get("pushServo");
 	    resetServo();
@@ -227,11 +232,11 @@ public class DriverControl extends LinearOpMode {
 
     public void loadRing() {
 	// actuate the piston forward push the bottom ring into the flywheel.
-	pushServo.setPosition(0.95);
+	pushServo.setPosition(1);
     }
 
     public void resetServo() {
 	// reset the position of the servo.
-	pushServo.setPosition(0.9);
+	pushServo.setPosition(0.6);
     }
 }

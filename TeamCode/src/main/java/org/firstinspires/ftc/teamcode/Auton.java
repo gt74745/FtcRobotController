@@ -19,7 +19,7 @@ import org.firstinspires.ftc.teamcode.WebcamOpMode;
 @Config
 public class Auton extends LinearOpMode
 {
-    DcMotor leftFrontMotor, rightFrontMotor, leftBackMotor, rightBackMotor, flyWheelMotor;
+    DcMotor leftFrontMotor, rightFrontMotor, leftBackMotor, rightBackMotor, flyWheelMotor, pickupMotor;
 	Servo pushServo;
     BNO055IMU imu;
     Orientation lastAngles = new Orientation();
@@ -34,7 +34,6 @@ public class Auton extends LinearOpMode
     double kP = 0.03;
     int target = 0;
     ElapsedTime runtime = new ElapsedTime();
-    WebcamOpMode cam = new WebcamOpMode();
 
     // Static variables for tuning with ftcdashboard
 
@@ -51,7 +50,8 @@ public class Auton extends LinearOpMode
 
         waitForStart();
 
-//        flyWheelMotor.setPower(0.75);
+        flyWheelMotor.setPower(0.75);
+        pickupMotor.setPower(0.25);
 
         runtime.reset();
 
@@ -102,13 +102,17 @@ public class Auton extends LinearOpMode
         rightBackMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBackMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-//        flyWheelMotor = hardwareMap.dcMotor.get("flyWheelMotor");
-//        flyWheelMotor.setDirection(DcMotorSimple.Direction.FORWARD);
-//        flyWheelMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        flyWheelMotor = hardwareMap.dcMotor.get("flyWheelMotor");
+        flyWheelMotor.setDirection(DcMotorSimple.Direction.FORWARD);
+        flyWheelMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        pickupMotor = hardwareMap.dcMotor.get("pickupMotor");
+        pickupMotor.setDirection(DcMotorSimple.Direction.REVERSE);
+        pickupMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 		pushServo = hardwareMap.servo.get("pushServo");
 
-		cam.startCamera();
+		// cam.startCamera();
 
         //Init IMU
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
