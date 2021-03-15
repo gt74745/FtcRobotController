@@ -31,7 +31,7 @@ public class Auton extends LinearOpMode
     double distancePerTick = (2 * Math.PI * 48) / 537.6;
     int instruction = 1;
     double globalAngle = 0;
-    double kP = 0.03;
+    double kP = 0.01;
     int target = 0;
     ElapsedTime runtime = new ElapsedTime();
 
@@ -39,7 +39,7 @@ public class Auton extends LinearOpMode
 
     public static double posCoord;
     public static double negCoord;
-    public static double servoPos = 0.8;
+    public static double servoPos = 0.6;
 
     @Override
     public void runOpMode() {
@@ -50,9 +50,6 @@ public class Auton extends LinearOpMode
 
         waitForStart();
 
-        flyWheelMotor.setPower(0.75);
-        pickupMotor.setPower(0.25);
-
         runtime.reset();
 
         while (opModeIsActive())
@@ -62,20 +59,27 @@ public class Auton extends LinearOpMode
             telemetry.addData("2 negativeDistanceTraveled", negativeDistanceTraveled);
             telemetry.addData("3 leftFrontPower", leftFrontPower);
             telemetry.addData("4 rightFrontPower", rightFrontPower);
+            telemetry.addData("5 step", instruction);
             telemetry.update();
 
-            move(posCoord, negCoord);
+            move(-1293, -1293, 1);
+//          end(2);
+//			move(-219, -270, 3);
+//          end(4);
+//          loadRing(5);
+//          resetServo(6);
+//			move(-673, -217, 7);
+//          end(8);
+//          loadRing(9);
+//          resetServo(10);
+//			move(-727, -162, 11);
+//          end(12);
+//          loadRing(13);
+//          resetServo(14);
+//			move(-538, -538, 15);
+			end(2);
+
             pushServo.setPosition(servoPos);
-
-			/*	Code for auton runs at qualifier
-
-			if (instruction == 1) {
-				if (cam.valBottom == 0 && cam.valTop == 0) move(760, 915);
-				if (cam.valBottom == 1 && cam.valTop == 0) move(1065, 915);
-				if (cam.valBottom == 1 && cam.valTop == 1) move(1220, 1370);
-			}
-
-			 */
         }
     }
 
@@ -152,50 +156,86 @@ public class Auton extends LinearOpMode
         previousRightBackMotorPos = rightBackMotorPos;
     }
 
-    void move(double posTarget, double negTarget)
+    void move(double posTarget, double negTarget, int step)
     {
-        getMotorPositions();
+        if(instruction == step) {
+            getMotorPositions();
 
-        positiveDistanceTraveled = (leftFrontDistanceTraveled + rightBackDistanceTraveled) / 2;
-        negativeDistanceTraveled = (leftBackDistanceTraveled + rightFrontDistanceTraveled) / 2;
+            positiveDistanceTraveled = (leftFrontDistanceTraveled + rightBackDistanceTraveled) / 2;
+            negativeDistanceTraveled = (leftBackDistanceTraveled + rightFrontDistanceTraveled) / 2;
 
-        double positiveError = (posTarget) - positiveDistanceTraveled;
-        double negativeError = (negTarget) - negativeDistanceTraveled;
+            double positiveError = (posTarget) - positiveDistanceTraveled;
+            double negativeError = (negTarget) - negativeDistanceTraveled;
 
-        // Calculate the motor powers
-        leftFrontPower = (kP * positiveError);
-        rightFrontPower = (kP * negativeError);
-        leftBackPower = (kP * negativeError);
-        rightBackPower = (kP * positiveError);
+            // Calculate the motor powers
+            leftFrontPower = (kP * positiveError);
+            rightFrontPower = (kP * negativeError);
+            leftBackPower = (kP * negativeError);
+            rightBackPower = (kP * positiveError);
 
+
+            if (leftFrontPower > 0.35) {
+                leftFrontPower = 0.35;
+            }
+            if (rightFrontPower > 0.35) {
+                rightFrontPower = 0.35;
+            }
+            if (leftBackPower > 0.35) {
+                leftBackPower = 0.35;
+            }
+            if (rightBackPower > 0.35) {
+                rightBackPower = 0.35;
+            }
+
+            if (leftFrontPower < -0.35) {
+                leftFrontPower = -0.35;
+            }
+            if (rightFrontPower < -0.35) {
+                rightFrontPower = -0.35;
+            }
+            if (leftBackPower < -0.35) {
+                leftBackPower = -0.35;
+            }
+            if (rightBackPower < -0.35) {
+                rightBackPower = -0.35;
+            }
+
+            // Apply motor power
+            leftFrontMotor.setPower(leftFrontPower);
+            rightFrontMotor.setPower(rightFrontPower);
+            leftBackMotor.setPower(leftBackPower);
+            rightBackMotor.setPower(rightBackPower);
+
+            checkIfFinished(positiveError, negativeError);
+        }
+    }
+
+    void checkIfFinished(double positiveError, double negativeError)
+    {
+        boolean posFinished = false, negFinished = false;
         // Stop if we reach the target position
         if (positiveError > -10 && positiveError < 10)
         {
             leftFrontPower = 0;
             rightBackPower = 0;
+            posFinished = true;
         }
 
         if (negativeError > -10 && negativeError < 10)
         {
             rightFrontPower = 0;
             leftBackPower = 0;
+            negFinished = true;
         }
 
-        if (leftFrontPower > 0.35) { leftFrontPower = 0.35; }
-        if (rightFrontPower > 0.35) { rightFrontPower = 0.35; }
-        if (leftBackPower > 0.35) { leftBackPower = 0.35; }
-        if (rightBackPower > 0.35) { rightBackPower = 0.35; }
-
-        if (leftFrontPower < -0.35) { leftFrontPower = -0.35; }
-        if (rightFrontPower < -0.35) { rightFrontPower = -0.35; }
-        if (leftBackPower < -0.35) { leftBackPower = -0.35; }
-        if (rightBackPower < -0.35) { rightBackPower = -0.35; }
-
-        // Apply motor power
-        leftFrontMotor.setPower(leftFrontPower);
-        rightFrontMotor.setPower(rightFrontPower);
-        leftBackMotor.setPower(leftBackPower);
-        rightBackMotor.setPower(rightBackPower);
+        if (posFinished && negFinished)
+        {
+            instruction++;
+        }
+        else
+        {
+            return;
+        }
     }
 
     void turn(double degrees)
@@ -217,7 +257,6 @@ public class Auton extends LinearOpMode
             rightFrontPower = 0;
             leftBackPower = 0;
             rightBackPower = 0;
-            instruction += 1;
         }
 
         // Apply motor power
@@ -249,15 +288,34 @@ public class Auton extends LinearOpMode
         return globalAngle;
     }
 
-	public void loadRing() {
-		pushServo.setPosition(0.25);
+	public void loadRing(int step) {
+        if (instruction == step) {
+            pushServo.setPosition(1);
+            sleep(1000);
+            instruction++;
+        }
+    }
+
+	public void resetServo(int step)
+    {
+        if (instruction == step) {
+            pushServo.setPosition(0.6);
+            sleep(1000);
+            instruction++;
+        }
 	}
 
-	public void resetServo() {
-		pushServo.setPosition(0);
-	}
-
-	public void launchRing() {}
+	public void end(int step)
+    {
+        if (instruction == step)
+        {
+            leftFrontMotor.setPower(0);
+            rightFrontMotor.setPower(0);
+            leftBackMotor.setPower(0);
+            rightBackMotor.setPower(0);
+            instruction++;
+        }
+    }
 
     private double getCorrectionValue() {
         Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);

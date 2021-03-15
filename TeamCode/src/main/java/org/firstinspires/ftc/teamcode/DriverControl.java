@@ -50,7 +50,7 @@ public class DriverControl extends LinearOpMode {
         telemetry.update();
 
 	    flyWheelMotor.setPower(0.75); //
-        pickupMotor.setPower(-0.25);
+        pickupMotor.setPower(-0.35);
 
         sleep(1000);
 
@@ -93,6 +93,11 @@ public class DriverControl extends LinearOpMode {
                 //orientation += (newTurn - oldTurn);
                 target = globalAngle;
             }
+
+            if (gamepad1.b)
+                pickupMotor.setPower(-0.35);
+            else
+                pickupMotor.setPower(0.35);
 
             // Check the power values and correct them
             // it would be such an L pwr = checkDirection(pwr);
